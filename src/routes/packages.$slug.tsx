@@ -92,7 +92,7 @@ function PackageDetail() {
             <div>
               <h2 className="font-display font-bold text-2xl mb-4">Included tests ({pkg.includes.length})</h2>
               <div className="grid sm:grid-cols-2 gap-3">
-                {pkg.includes.map(t => (
+                {pkg.includes.map((t: string) => (
                   <div key={t} className="glass-card rounded-xl p-4 flex items-center gap-3">
                     <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success/15 text-success">
                       <Check className="h-4 w-4" />
@@ -105,7 +105,7 @@ function PackageDetail() {
             <div>
               <h2 className="font-display font-bold text-2xl mb-3">Benefits</h2>
               <ul className="space-y-2">
-                {pkg.benefits.map(b => (
+                {pkg.benefits.map((b: string) => (
                   <li key={b} className="flex gap-2 text-muted-foreground"><Check className="h-5 w-5 text-success shrink-0" /> {b}</li>
                 ))}
               </ul>
@@ -117,7 +117,7 @@ function PackageDetail() {
             <div>
               <h2 className="font-display font-bold text-2xl mb-4">FAQs</h2>
               <div className="space-y-3">
-                {pkg.faqs.map((f, i) => (
+                {pkg.faqs.map((f: {q:string;a:string}, i: number) => (
                   <div key={i} className="glass-card rounded-xl overflow-hidden">
                     <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full px-5 py-4 flex justify-between items-center text-left">
                       <span className="font-semibold">{f.q}</span>

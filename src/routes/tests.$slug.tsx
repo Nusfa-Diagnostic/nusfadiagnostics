@@ -106,7 +106,7 @@ function TestDetail() {
             <div>
               <h2 className="font-display font-bold text-2xl mb-4">Frequently asked questions</h2>
               <div className="space-y-3">
-                {test.faqs.map((f, i) => (
+                {test.faqs.map((f: {q:string;a:string}, i: number) => (
                   <div key={i} className="glass-card rounded-xl overflow-hidden">
                     <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full px-5 py-4 flex justify-between items-center text-left">
                       <span className="font-semibold">{f.q}</span>
