@@ -15,10 +15,10 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NUSFA Diagnostic — Pathology Lab in Ramnagar, West Champaran" },
+      { title: "NUSFA Diagnostic — Pathology Lab in Ramnagar." },
       { name: "description", content: "Book lab tests & health packages online with free home sample collection. NABL-quality reports, transparent pricing, trusted by families in West Champaran." },
-      { property: "og:title", content: "NUSFA Diagnostic — Pathology Lab in Ramnagar" },
-      { property: "og:description", content: "Premium diagnostic services with home sample collection in West Champaran, Bihar." },
+      { property: "og:title", content: "NUSFA Diagnostic — Pathology Lab in Ramnagar." },
+      { property: "og:description", content: "Book lab tests & health packages online with free home sample collection. NABL-quality reports, transparent pricing, trusted by families in West Champaran." },
     ],
   }),
   component: Home,
