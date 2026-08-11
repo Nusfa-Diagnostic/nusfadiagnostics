@@ -56,7 +56,7 @@ function AccountHome() {
                 <ul className="mt-4 space-y-3 text-sm">
                   {data.bookings.map(b => (
                     <li key={b.id} className="flex justify-between gap-4 border-b border-border pb-2 last:border-0">
-                      <span>{b.item_name ?? "Booking"}</span>
+                      <span>{b.booking_number}</span>
                       <span className="text-muted-foreground capitalize">{String(b.status ?? "").replace(/_/g, " ")}</span>
                     </li>
                   ))}
@@ -75,7 +75,7 @@ function AccountHome() {
                   {data.reports.map(r => (
                     <li key={r.id} className="flex justify-between gap-4 border-b border-border pb-2 last:border-0">
                       <span>{r.title ?? "Report"}</span>
-                      <span className="text-muted-foreground capitalize">{String(r.status ?? "")}</span>
+                      <span className="text-muted-foreground capitalize">{r.is_published ? "Ready" : "Processing"}</span>
                     </li>
                   ))}
                 </ul>
