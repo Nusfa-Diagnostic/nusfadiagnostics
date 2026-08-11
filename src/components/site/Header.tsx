@@ -44,8 +44,16 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a href={`tel:${BRAND.phones[0]}`} className="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-primary hover:bg-primary/5 rounded-lg transition-colors">
-              <Phone className="h-4 w-4" /> {BRAND.phones[0]}
+            <a
+              href={`tel:${BRAND.phones[0]}`}
+              aria-label={`Home Collection ${BRAND.phones[0]}`}
+              className="flex items-center gap-2 rounded-lg border border-primary bg-background px-2.5 py-1.5 text-primary shadow-sm transition-colors hover:bg-primary/5"
+            >
+              <Phone className="h-4 w-4 shrink-0" />
+              <span className="whitespace-nowrap text-[13px] font-medium leading-none">
+                <span className="hidden sm:inline">Home Collection </span>
+                <span className="font-semibold">{BRAND.phones[0]}</span>
+              </span>
             </a>
             <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-lg hover:bg-secondary transition-colors">
               <ShoppingCart className="h-5 w-5" />
