@@ -4,7 +4,7 @@ import { ChevronDown, Phone, MessageCircle, ShoppingCart, Check } from "lucide-r
 import { SiteLayout } from "@/components/site/Layout";
 import { PackageCard } from "@/components/site/PackageCard";
 import { Button } from "@/components/ui/button";
-import { getPackage, relatedPackages, BRAND } from "@/lib/data";
+import { getPackage, relatedPackages, BRAND, type Package } from "@/lib/data";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/packages/$slug")({
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/packages/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): { pkg: Package } => {
     const pkg = getPackage(params.slug);
     if (!pkg) throw notFound();
     return { pkg };
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/packages/$slug")({
 });
 
 function PackageDetail() {
-  const { pkg } = Route.useLoaderData();
+  const { pkg } = Route.useLoaderData() as any;
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedPackages(pkg.slug);

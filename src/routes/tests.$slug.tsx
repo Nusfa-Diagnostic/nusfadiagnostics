@@ -4,7 +4,7 @@ import { ChevronDown, Phone, MessageCircle, ShoppingCart, ArrowLeft, Check, Cloc
 import { SiteLayout } from "@/components/site/Layout";
 import { TestCard } from "@/components/site/TestCard";
 import { Button } from "@/components/ui/button";
-import { getTest, relatedTests, BRAND } from "@/lib/data";
+import { getTest, relatedTests, BRAND, type Test } from "@/lib/data";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/tests/$slug")({
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/tests/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): { test: Test } => {
     const test = getTest(params.slug);
     if (!test) throw notFound();
     return { test };
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/tests/$slug")({
 });
 
 function TestDetail() {
-  const { test } = Route.useLoaderData();
+  const { test } = Route.useLoaderData() as any;
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedTests(test.slug, test.category);
