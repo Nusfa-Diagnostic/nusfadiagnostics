@@ -11,17 +11,17 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/tests", label: "Tests", icon: FlaskConical },
-  { to: "/admin/packages", label: "Packages", icon: Package },
-  { to: "/admin/slides", label: "Hero Slider", icon: Images },
-  { to: "/admin/offers", label: "Offers", icon: Tag },
-  { to: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
-  { to: "/admin/customers", label: "Customers", icon: Users },
-  { to: "/admin/reports", label: "Reports", icon: FileText },
-  { to: "/admin/testimonials", label: "Testimonials", icon: Star },
-  { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true as boolean },
+  { to: "/admin/tests", label: "Tests", icon: FlaskConical, exact: false as boolean },
+  { exact: false as boolean, to: "/admin/packages", label: "Packages", icon: Package },
+  { exact: false as boolean, to: "/admin/slides", label: "Hero Slider", icon: Images },
+  { exact: false as boolean, to: "/admin/offers", label: "Offers", icon: Tag },
+  { exact: false as boolean, to: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
+  { exact: false as boolean, to: "/admin/customers", label: "Customers", icon: Users },
+  { exact: false as boolean, to: "/admin/reports", label: "Reports", icon: FileText },
+  { exact: false as boolean, to: "/admin/testimonials", label: "Testimonials", icon: Star },
+  { exact: false as boolean, to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+  { exact: false as boolean, to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function AdminShell({ children }: { children: ReactNode }) {
