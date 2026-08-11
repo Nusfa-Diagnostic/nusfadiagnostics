@@ -12,16 +12,6 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true as boolean },
-  { to: "/admin/tests", label: "Tests", icon: FlaskConical, exact: false as boolean },
-  { exact: false as boolean, to: "/admin/packages", label: "Packages", icon: Package },
-  { exact: false as boolean, to: "/admin/slides", label: "Hero Slider", icon: Images },
-  { exact: false as boolean, to: "/admin/offers", label: "Offers", icon: Tag },
-  { exact: false as boolean, to: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
-  { exact: false as boolean, to: "/admin/customers", label: "Customers", icon: Users },
-  { exact: false as boolean, to: "/admin/reports", label: "Reports", icon: FileText },
-  { exact: false as boolean, to: "/admin/testimonials", label: "Testimonials", icon: Star },
-  { exact: false as boolean, to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { exact: false as boolean, to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function AdminShell({ children }: { children: ReactNode }) {
@@ -32,7 +22,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    navigate({ to: "/admin/login", replace: true });
+    navigate({ to: "/admin/login", search: { denied: undefined }, replace: true });
   };
 
   const sidebar = (

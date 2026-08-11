@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_admin")({
   ssr: false,
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/admin/login" });
+    if (error || !data.user) throw redirect({ to: "/admin/login", search: { denied: undefined } });
     const { data: isAdmin } = await supabase.rpc("has_role", {
       _user_id: data.user.id,
       _role: "admin",

@@ -38,7 +38,7 @@ export const Route = createFileRoute("/tests/$slug")({
 });
 
 function TestDetail() {
-  const { test } = Route.useLoaderData();
+  const { test } = Route.useLoaderData() as any;
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedTests(test.slug, test.category);

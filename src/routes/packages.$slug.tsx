@@ -38,7 +38,7 @@ export const Route = createFileRoute("/packages/$slug")({
 });
 
 function PackageDetail() {
-  const { pkg } = Route.useLoaderData();
+  const { pkg } = Route.useLoaderData() as any;
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedPackages(pkg.slug);
