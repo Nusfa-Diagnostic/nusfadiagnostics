@@ -22,6 +22,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin.index'
 import { Route as AuthenticatedAccountBookingsIndexRouteImport } from './routes/_authenticated/account.bookings.index'
+import { Route as AuthenticatedAccountBookingsIdRouteImport } from './routes/_authenticated/account.bookings.$id'
 
 const CartRoute = CartRouteImport.update({
   id: '/cart',
@@ -88,6 +89,12 @@ const AuthenticatedAccountBookingsIndexRoute =
     path: '/account/bookings/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAccountBookingsIdRoute =
+  AuthenticatedAccountBookingsIdRouteImport.update({
+    id: '/account/bookings/$id',
+    path: '/account/bookings/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/tests/': typeof TestsIndexRoute
   '/admin/': typeof AdminAdminIndexRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/account/bookings/$id': typeof AuthenticatedAccountBookingsIdRoute
   '/account/bookings/': typeof AuthenticatedAccountBookingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -113,6 +121,7 @@ export interface FileRoutesByTo {
   '/tests': typeof TestsIndexRoute
   '/admin': typeof AdminAdminIndexRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/account/bookings/$id': typeof AuthenticatedAccountBookingsIdRoute
   '/account/bookings': typeof AuthenticatedAccountBookingsIndexRoute
 }
 export interface FileRoutesById {
@@ -129,6 +138,7 @@ export interface FileRoutesById {
   '/tests/': typeof TestsIndexRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_authenticated/account/bookings/$id': typeof AuthenticatedAccountBookingsIdRoute
   '/_authenticated/account/bookings/': typeof AuthenticatedAccountBookingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/tests/'
     | '/admin/'
     | '/account/'
+    | '/account/bookings/$id'
     | '/account/bookings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/tests'
     | '/admin'
     | '/account'
+    | '/account/bookings/$id'
     | '/account/bookings'
   id:
     | '__root__'
@@ -172,6 +184,7 @@ export interface FileRouteTypes {
     | '/tests/'
     | '/_admin/admin/'
     | '/_authenticated/account/'
+    | '/_authenticated/account/bookings/$id'
     | '/_authenticated/account/bookings/'
   fileRoutesById: FileRoutesById
 }
@@ -281,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountBookingsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/account/bookings/$id': {
+      id: '/_authenticated/account/bookings/$id'
+      path: '/account/bookings/$id'
+      fullPath: '/account/bookings/$id'
+      preLoaderRoute: typeof AuthenticatedAccountBookingsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -298,11 +318,13 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
+  AuthenticatedAccountBookingsIdRoute: typeof AuthenticatedAccountBookingsIdRoute
   AuthenticatedAccountBookingsIndexRoute: typeof AuthenticatedAccountBookingsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
+  AuthenticatedAccountBookingsIdRoute: AuthenticatedAccountBookingsIdRoute,
   AuthenticatedAccountBookingsIndexRoute:
     AuthenticatedAccountBookingsIndexRoute,
 }
