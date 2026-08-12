@@ -27,6 +27,7 @@ import { Route as AuthenticatedAccountNotificationsRouteImport } from './routes/
 import { Route as AdminAdminTestsRouteImport } from './routes/_admin/admin.tests'
 import { Route as AdminAdminPackagesRouteImport } from './routes/_admin/admin.packages'
 import { Route as AdminAdminContentRouteImport } from './routes/_admin/admin.content'
+import { Route as AdminAdminBookingsRouteImport } from './routes/_admin/admin.bookings'
 import { Route as AuthenticatedAccountBookingsIndexRouteImport } from './routes/_authenticated/account.bookings.index'
 import { Route as AuthenticatedAccountBookingsIdRouteImport } from './routes/_authenticated/account.bookings.$id'
 
@@ -122,6 +123,11 @@ const AdminAdminContentRoute = AdminAdminContentRouteImport.update({
   path: '/admin/content',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAdminBookingsRoute = AdminAdminBookingsRouteImport.update({
+  id: '/admin/bookings',
+  path: '/admin/bookings',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AuthenticatedAccountBookingsIndexRoute =
   AuthenticatedAccountBookingsIndexRouteImport.update({
     id: '/account/bookings/',
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/admin/bookings': typeof AdminAdminBookingsRoute
   '/admin/content': typeof AdminAdminContentRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/tests': typeof AdminAdminTestsRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages': typeof PackagesIndexRoute
   '/tests': typeof TestsIndexRoute
+  '/admin/bookings': typeof AdminAdminBookingsRoute
   '/admin/content': typeof AdminAdminContentRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/tests': typeof AdminAdminTestsRoute
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/_admin/admin/bookings': typeof AdminAdminBookingsRoute
   '/_admin/admin/content': typeof AdminAdminContentRoute
   '/_admin/admin/packages': typeof AdminAdminPackagesRoute
   '/_admin/admin/tests': typeof AdminAdminTestsRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/admin/bookings'
     | '/admin/content'
     | '/admin/packages'
     | '/admin/tests'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages'
     | '/tests'
+    | '/admin/bookings'
     | '/admin/content'
     | '/admin/packages'
     | '/admin/tests'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/_admin/admin/bookings'
     | '/_admin/admin/content'
     | '/_admin/admin/packages'
     | '/_admin/admin/tests'
@@ -404,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminContentRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/_admin/admin/bookings': {
+      id: '/_admin/admin/bookings'
+      path: '/admin/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminAdminBookingsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_authenticated/account/bookings/': {
       id: '/_authenticated/account/bookings/'
       path: '/account/bookings'
@@ -422,6 +441,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminAdminBookingsRoute: typeof AdminAdminBookingsRoute
   AdminAdminContentRoute: typeof AdminAdminContentRoute
   AdminAdminPackagesRoute: typeof AdminAdminPackagesRoute
   AdminAdminTestsRoute: typeof AdminAdminTestsRoute
@@ -429,6 +449,7 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdminBookingsRoute: AdminAdminBookingsRoute,
   AdminAdminContentRoute: AdminAdminContentRoute,
   AdminAdminPackagesRoute: AdminAdminPackagesRoute,
   AdminAdminTestsRoute: AdminAdminTestsRoute,
