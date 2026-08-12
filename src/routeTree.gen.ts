@@ -24,6 +24,7 @@ import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin.index
 import { Route as AuthenticatedAccountReportsRouteImport } from './routes/_authenticated/account.reports'
 import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
 import { Route as AuthenticatedAccountNotificationsRouteImport } from './routes/_authenticated/account.notifications'
+import { Route as AdminAdminTestsRouteImport } from './routes/_admin/admin.tests'
 import { Route as AuthenticatedAccountBookingsIndexRouteImport } from './routes/_authenticated/account.bookings.index'
 import { Route as AuthenticatedAccountBookingsIdRouteImport } from './routes/_authenticated/account.bookings.$id'
 
@@ -104,6 +105,11 @@ const AuthenticatedAccountNotificationsRoute =
     path: '/account/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AdminAdminTestsRoute = AdminAdminTestsRouteImport.update({
+  id: '/admin/tests',
+  path: '/admin/tests',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AuthenticatedAccountBookingsIndexRoute =
   AuthenticatedAccountBookingsIndexRouteImport.update({
     id: '/account/bookings/',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
   '/account/reports': typeof AuthenticatedAccountReportsRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages': typeof PackagesIndexRoute
   '/tests': typeof TestsIndexRoute
+  '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
   '/account/reports': typeof AuthenticatedAccountReportsRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/_admin/admin/tests': typeof AdminAdminTestsRoute
   '/_authenticated/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/_authenticated/account/profile': typeof AuthenticatedAccountProfileRoute
   '/_authenticated/account/reports': typeof AuthenticatedAccountReportsRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/admin/tests'
     | '/account/notifications'
     | '/account/profile'
     | '/account/reports'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages'
     | '/tests'
+    | '/admin/tests'
     | '/account/notifications'
     | '/account/profile'
     | '/account/reports'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/_admin/admin/tests'
     | '/_authenticated/account/notifications'
     | '/_authenticated/account/profile'
     | '/_authenticated/account/reports'
@@ -347,6 +359,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_admin/admin/tests': {
+      id: '/_admin/admin/tests'
+      path: '/admin/tests'
+      fullPath: '/admin/tests'
+      preLoaderRoute: typeof AdminAdminTestsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_authenticated/account/bookings/': {
       id: '/_authenticated/account/bookings/'
       path: '/account/bookings'
@@ -365,10 +384,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminAdminTestsRoute: typeof AdminAdminTestsRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdminTestsRoute: AdminAdminTestsRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
 }
 
