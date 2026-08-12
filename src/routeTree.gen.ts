@@ -25,6 +25,7 @@ import { Route as AuthenticatedAccountReportsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authenticated/account.profile'
 import { Route as AuthenticatedAccountNotificationsRouteImport } from './routes/_authenticated/account.notifications'
 import { Route as AdminAdminTestsRouteImport } from './routes/_admin/admin.tests'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin/admin.settings'
 import { Route as AdminAdminReportsRouteImport } from './routes/_admin/admin.reports'
 import { Route as AdminAdminPackagesRouteImport } from './routes/_admin/admin.packages'
 import { Route as AdminAdminCustomersRouteImport } from './routes/_admin/admin.customers'
@@ -115,6 +116,11 @@ const AdminAdminTestsRoute = AdminAdminTestsRouteImport.update({
   path: '/admin/tests',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
   id: '/admin/reports',
   path: '/admin/reports',
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/admin/customers': typeof AdminAdminCustomersRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/reports': typeof AdminAdminReportsRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
   '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/admin/customers': typeof AdminAdminCustomersRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/reports': typeof AdminAdminReportsRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
   '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/account/profile': typeof AuthenticatedAccountProfileRoute
@@ -216,6 +224,7 @@ export interface FileRoutesById {
   '/_admin/admin/customers': typeof AdminAdminCustomersRoute
   '/_admin/admin/packages': typeof AdminAdminPackagesRoute
   '/_admin/admin/reports': typeof AdminAdminReportsRoute
+  '/_admin/admin/settings': typeof AdminAdminSettingsRoute
   '/_admin/admin/tests': typeof AdminAdminTestsRoute
   '/_authenticated/account/notifications': typeof AuthenticatedAccountNotificationsRoute
   '/_authenticated/account/profile': typeof AuthenticatedAccountProfileRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/admin/customers'
     | '/admin/packages'
     | '/admin/reports'
+    | '/admin/settings'
     | '/admin/tests'
     | '/account/notifications'
     | '/account/profile'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/admin/customers'
     | '/admin/packages'
     | '/admin/reports'
+    | '/admin/settings'
     | '/admin/tests'
     | '/account/notifications'
     | '/account/profile'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/customers'
     | '/_admin/admin/packages'
     | '/_admin/admin/reports'
+    | '/_admin/admin/settings'
     | '/_admin/admin/tests'
     | '/_authenticated/account/notifications'
     | '/_authenticated/account/profile'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminTestsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_admin/admin/reports': {
       id: '/_admin/admin/reports'
       path: '/admin/reports'
@@ -484,6 +503,7 @@ interface AdminRouteRouteChildren {
   AdminAdminCustomersRoute: typeof AdminAdminCustomersRoute
   AdminAdminPackagesRoute: typeof AdminAdminPackagesRoute
   AdminAdminReportsRoute: typeof AdminAdminReportsRoute
+  AdminAdminSettingsRoute: typeof AdminAdminSettingsRoute
   AdminAdminTestsRoute: typeof AdminAdminTestsRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
@@ -494,6 +514,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAdminCustomersRoute: AdminAdminCustomersRoute,
   AdminAdminPackagesRoute: AdminAdminPackagesRoute,
   AdminAdminReportsRoute: AdminAdminReportsRoute,
+  AdminAdminSettingsRoute: AdminAdminSettingsRoute,
   AdminAdminTestsRoute: AdminAdminTestsRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
 }
