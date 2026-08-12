@@ -26,6 +26,7 @@ import { Route as AuthenticatedAccountProfileRouteImport } from './routes/_authe
 import { Route as AuthenticatedAccountNotificationsRouteImport } from './routes/_authenticated/account.notifications'
 import { Route as AdminAdminTestsRouteImport } from './routes/_admin/admin.tests'
 import { Route as AdminAdminPackagesRouteImport } from './routes/_admin/admin.packages'
+import { Route as AdminAdminContentRouteImport } from './routes/_admin/admin.content'
 import { Route as AuthenticatedAccountBookingsIndexRouteImport } from './routes/_authenticated/account.bookings.index'
 import { Route as AuthenticatedAccountBookingsIdRouteImport } from './routes/_authenticated/account.bookings.$id'
 
@@ -116,6 +117,11 @@ const AdminAdminPackagesRoute = AdminAdminPackagesRouteImport.update({
   path: '/admin/packages',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAdminContentRoute = AdminAdminContentRouteImport.update({
+  id: '/admin/content',
+  path: '/admin/content',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AuthenticatedAccountBookingsIndexRoute =
   AuthenticatedAccountBookingsIndexRouteImport.update({
     id: '/account/bookings/',
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/admin/content': typeof AdminAdminContentRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages': typeof PackagesIndexRoute
   '/tests': typeof TestsIndexRoute
+  '/admin/content': typeof AdminAdminContentRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/tests': typeof AdminAdminTestsRoute
   '/account/notifications': typeof AuthenticatedAccountNotificationsRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/tests/$slug': typeof TestsSlugRoute
   '/packages/': typeof PackagesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/_admin/admin/content': typeof AdminAdminContentRoute
   '/_admin/admin/packages': typeof AdminAdminPackagesRoute
   '/_admin/admin/tests': typeof AdminAdminTestsRoute
   '/_authenticated/account/notifications': typeof AuthenticatedAccountNotificationsRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/admin/content'
     | '/admin/packages'
     | '/admin/tests'
     | '/account/notifications'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages'
     | '/tests'
+    | '/admin/content'
     | '/admin/packages'
     | '/admin/tests'
     | '/account/notifications'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/tests/$slug'
     | '/packages/'
     | '/tests/'
+    | '/_admin/admin/content'
     | '/_admin/admin/packages'
     | '/_admin/admin/tests'
     | '/_authenticated/account/notifications'
@@ -385,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminPackagesRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/_admin/admin/content': {
+      id: '/_admin/admin/content'
+      path: '/admin/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminAdminContentRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_authenticated/account/bookings/': {
       id: '/_authenticated/account/bookings/'
       path: '/account/bookings'
@@ -403,12 +422,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminAdminContentRoute: typeof AdminAdminContentRoute
   AdminAdminPackagesRoute: typeof AdminAdminPackagesRoute
   AdminAdminTestsRoute: typeof AdminAdminTestsRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdminContentRoute: AdminAdminContentRoute,
   AdminAdminPackagesRoute: AdminAdminPackagesRoute,
   AdminAdminTestsRoute: AdminAdminTestsRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
