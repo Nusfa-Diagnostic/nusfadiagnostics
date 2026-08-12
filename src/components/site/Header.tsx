@@ -77,6 +77,11 @@ export function Header() {
                 </span>
               )}
             </Link>
+            <Button asChild size="sm" variant="outline" className="hidden sm:inline-flex border-primary text-primary hover:bg-primary/5">
+              <Link to={user ? "/account" : "/auth"} search={user ? undefined : { redirect: undefined }}>
+                <User className="h-4 w-4" /> {user ? "My Account" : "Login / Sign Up"}
+              </Link>
+            </Button>
             <Button asChild size="sm" className="hidden sm:inline-flex bg-gradient-primary hover:opacity-95 shadow-md">
               <Link to="/tests">Book Test</Link>
             </Button>
@@ -95,9 +100,18 @@ export function Header() {
                   {n.label}
                 </Link>
               ))}
+              <Link
+                to={user ? "/account" : "/auth"}
+                search={user ? undefined : { redirect: undefined }}
+                onClick={() => setOpen(false)}
+                className="mt-1 px-4 py-3 rounded-lg bg-secondary text-primary font-semibold flex items-center gap-2"
+              >
+                <User className="h-4 w-4" /> {user ? "My Account" : "Login / Sign Up"}
+              </Link>
             </nav>
           </div>
         )}
+
       </div>
     </header>
   );
