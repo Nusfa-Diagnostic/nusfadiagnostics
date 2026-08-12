@@ -12,7 +12,15 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true as boolean },
+  { to: "/admin/tests", label: "Tests", icon: FlaskConical, exact: false as boolean },
+  { to: "/admin/packages", label: "Packages", icon: Package, exact: false as boolean },
+  { to: "/admin/bookings", label: "Bookings", icon: CalendarCheck, exact: false as boolean },
+  { to: "/admin/customers", label: "Customers", icon: Users, exact: false as boolean },
+  { to: "/admin/reports", label: "Reports", icon: FileText, exact: false as boolean },
+  { to: "/admin/content", label: "Website Content", icon: Images, exact: false as boolean },
+  { to: "/admin/settings", label: "Settings", icon: Settings, exact: false as boolean },
 ] as const;
+
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
