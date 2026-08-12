@@ -1,8 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { Phone, ShoppingCart, Menu, X, FlaskConical } from "lucide-react";
-import { useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Phone, ShoppingCart, Menu, X, FlaskConical, User } from "lucide-react";
+import { useRef, useState } from "react";
 import { BRAND } from "@/lib/data";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 
 const nav = [
@@ -15,13 +16,25 @@ const nav = [
 
 export function Header() {
   const { count } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const taps = useRef<number[]>([]);
+
+  const handleLogoTap = () => {
+    const now = Date.now();
+    taps.current = [...taps.current.filter(t => now - t < 4000), now];
+    if (taps.current.length >= 7) {
+      taps.current = [];
+      navigate({ to: "/admin/login", search: { denied: undefined } });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 glass-card border-b border-border/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-2.5 group" onClick={handleLogoTap}>
             <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary shadow-glow">
               <FlaskConical className="h-5 w-5 text-primary-foreground" />
             </div>
@@ -30,6 +43,7 @@ export function Header() {
               <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Diagnostic</div>
             </div>
           </Link>
+
 
           <nav className="hidden lg:flex items-center gap-1">
             {nav.map(n => (
