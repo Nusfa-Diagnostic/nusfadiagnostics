@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Phone, MessageCircle, ShoppingCart, Check } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
@@ -6,6 +6,7 @@ import { PackageCard } from "@/components/site/PackageCard";
 import { Button } from "@/components/ui/button";
 import { getPackage, relatedPackages, BRAND, type Package } from "@/lib/data";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/packages/$slug")({
   head: ({ params }) => {
@@ -42,7 +43,14 @@ function PackageDetail() {
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedPackages(pkg.slug);
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const addToCart = () => add({ id: `pkg-${pkg.slug}`, type: "package", name: pkg.name, price: pkg.price, image: pkg.image });
+  const bookNow = () => {
+    addToCart();
+    if (user) navigate({ to: "/checkout" });
+    else navigate({ to: "/auth", search: { redirect: "/checkout" } });
+  };
   const discount = Math.round(((pkg.mrp - pkg.price) / pkg.mrp) * 100);
 
   return (
