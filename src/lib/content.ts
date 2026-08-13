@@ -209,3 +209,31 @@ export function useFaqs(fallback: FaqItem[]) {
   });
   return query.data && query.data.length ? query.data : fallback;
 }
+
+export type SlideItem = {
+  image: string; title: string; subtitle: string; description: string; cta: string; ctaLink: string;
+};
+
+export function useHeroSlides(fallback: SlideItem[]) {
+  const query = useQuery({
+    queryKey: ["public", "hero-slides"],
+    staleTime: 60_000,
+    queryFn: async (): Promise<SlideItem[]> => {
+      const { data, error } = await supabase
+        .from("hero_slides")
+        .select("title, subtitle, description, image_url, cta_text, cta_link, sort_order")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map((s, i) => ({
+        image: s.image_url || fallback[i % fallback.length]?.image || "",
+        title: s.title,
+        subtitle: s.subtitle ?? "",
+        description: s.description ?? "",
+        cta: s.cta_text ?? "Explore All Tests",
+        ctaLink: s.cta_link ?? "/tests",
+      }));
+    },
+  });
+  return query.data && query.data.length ? query.data : fallback;
+}

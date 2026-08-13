@@ -204,7 +204,7 @@ function Testimonials() {
           {reviews.map((r, i) => (
             <div key={i} className="glass-card rounded-2xl p-7 hover:shadow-elegant transition-all">
               <div className="flex gap-0.5 mb-4">
-                {Array.from({ length: 5 }).map((_, j) => (
+                {Array.from({ length: r.rating || 5 }).map((_, j) => (
                   <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
