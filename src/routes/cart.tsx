@@ -7,7 +7,17 @@ import { BRAND } from "@/lib/data";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/cart")({
-  head: () => ({ meta: [{ title: "Your Cart — NUSFA Diagnostic" }] }),
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Your Cart — NUSFA Diagnostic" },
+      { name: "description", content: "Review the lab tests and health packages in your NUSFA Diagnostic cart and confirm your booking with free home sample collection." },
+      { property: "og:title", content: "Your Cart — NUSFA Diagnostic" },
+      { property: "og:description", content: "Review your selected tests and packages and confirm your booking." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: CartPage,
 });
 
