@@ -145,3 +145,67 @@ export function usePackageBySlug(slug: string, fallback: Package) {
   const { packages } = usePackages();
   return packages.find(p => p.slug === slug) ?? fallback;
 }
+
+export type OfferItem = { tag: string; title: string; desc: string };
+export type ReviewItem = { name: string; role: string; text: string; rating: number };
+export type FaqItem = { q: string; a: string };
+
+export function useOffers(fallback: OfferItem[]) {
+  const query = useQuery({
+    queryKey: ["public", "offers"],
+    staleTime: 60_000,
+    queryFn: async (): Promise<OfferItem[]> => {
+      const { data, error } = await supabase
+        .from("offers")
+        .select("title, description, discount_text, sort_order")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map(o => ({
+        tag: o.discount_text ?? "Offer",
+        title: o.title,
+        desc: o.description ?? "",
+      }));
+    },
+  });
+  return query.data && query.data.length ? query.data : fallback;
+}
+
+export function useTestimonials(fallback: ReviewItem[]) {
+  const query = useQuery({
+    queryKey: ["public", "testimonials"],
+    staleTime: 60_000,
+    queryFn: async (): Promise<ReviewItem[]> => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("name, location, message, rating, sort_order")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map(t => ({
+        name: t.name,
+        role: t.location ?? "",
+        text: t.message,
+        rating: t.rating ?? 5,
+      }));
+    },
+  });
+  return query.data && query.data.length ? query.data : fallback;
+}
+
+export function useFaqs(fallback: FaqItem[]) {
+  const query = useQuery({
+    queryKey: ["public", "faqs"],
+    staleTime: 60_000,
+    queryFn: async (): Promise<FaqItem[]> => {
+      const { data, error } = await supabase
+        .from("faqs")
+        .select("question, answer, sort_order")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []).map(f => ({ q: f.question, a: f.answer }));
+    },
+  });
+  return query.data && query.data.length ? query.data : fallback;
+}
