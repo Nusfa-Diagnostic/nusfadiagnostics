@@ -74,7 +74,7 @@ function TestDetail() {
                 {test.mrp && <span className="px-2 py-0.5 bg-success rounded-full text-xs font-bold">{Math.round(((test.mrp - test.price) / test.mrp) * 100)}% OFF</span>}
               </div>
               <div className="flex flex-wrap gap-3 mt-6">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={addToCart}>
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={bookNow}>
                   Book Now
                 </Button>
                 <Button size="lg" variant="outline" className="border-white/40 text-white bg-white/10 hover:bg-white/20" onClick={addToCart}>
@@ -153,7 +153,7 @@ function TestDetail() {
               <div className="text-sm opacity-90">Best price</div>
               <div className="text-3xl font-bold mb-1">₹{test.price}</div>
               {test.mrp && <div className="text-sm opacity-80 line-through mb-4">MRP ₹{test.mrp}</div>}
-              <Button className="w-full bg-white text-primary hover:bg-white/90" onClick={addToCart}>Book Now</Button>
+              <Button className="w-full bg-white text-primary hover:bg-white/90" onClick={bookNow}>Book Now</Button>
             </div>
           </aside>
         </div>

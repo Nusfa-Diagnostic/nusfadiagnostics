@@ -74,7 +74,7 @@ function PackageDetail() {
                 <span className="px-2 py-0.5 bg-success rounded-full text-xs font-bold">{discount}% OFF</span>
               </div>
               <div className="flex flex-wrap gap-3 mt-6">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={addToCart}>Book Package</Button>
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={bookNow}>Book Package</Button>
                 <Button size="lg" variant="outline" className="border-white/40 text-white bg-white/10 hover:bg-white/20" onClick={addToCart}>
                   <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                 </Button>
@@ -143,7 +143,7 @@ function PackageDetail() {
               <div className="text-4xl font-bold">₹{pkg.price}</div>
               <div className="text-sm opacity-80 line-through">MRP ₹{pkg.mrp}</div>
               <div className="inline-block mt-2 px-3 py-1 bg-white/20 rounded-full text-xs font-bold">You save ₹{pkg.mrp - pkg.price} ({discount}%)</div>
-              <Button className="w-full mt-5 bg-white text-primary hover:bg-white/90" onClick={addToCart}>Book Package</Button>
+              <Button className="w-full mt-5 bg-white text-primary hover:bg-white/90" onClick={bookNow}>Book Package</Button>
             </div>
           </aside>
         </div>
