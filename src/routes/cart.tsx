@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Trash2, ShoppingBag, ArrowRight, MessageCircle } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowRight, MessageCircle, Loader2 } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { BRAND } from "@/lib/data";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({ meta: [{ title: "Your Cart — NUSFA Diagnostic" }] }),
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { items, remove, clear, total } = useCart();
+  const { user, loading } = useAuth();
 
   const waMessage = encodeURIComponent(
     "Hi NUSFA Diagnostic, I want to book the following:\n\n" +
