@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Phone, MessageCircle, ShoppingCart, Check } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
@@ -6,6 +6,8 @@ import { PackageCard } from "@/components/site/PackageCard";
 import { Button } from "@/components/ui/button";
 import { getPackage, relatedPackages, BRAND, type Package } from "@/lib/data";
 import { useCart } from "@/lib/cart";
+import { usePackageBySlug } from "@/lib/content";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/packages/$slug")({
   head: ({ params }) => {
@@ -38,11 +40,19 @@ export const Route = createFileRoute("/packages/$slug")({
 });
 
 function PackageDetail() {
-  const { pkg } = Route.useLoaderData() as any;
+  const { pkg: fallbackPkg } = Route.useLoaderData() as any;
+  const pkg = usePackageBySlug(fallbackPkg.slug, fallbackPkg);
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedPackages(pkg.slug);
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const addToCart = () => add({ id: `pkg-${pkg.slug}`, type: "package", name: pkg.name, price: pkg.price, image: pkg.image });
+  const bookNow = () => {
+    addToCart();
+    if (user) navigate({ to: "/checkout" });
+    else navigate({ to: "/auth", search: { redirect: "/checkout" } });
+  };
   const discount = Math.round(((pkg.mrp - pkg.price) / pkg.mrp) * 100);
 
   return (
@@ -66,7 +76,7 @@ function PackageDetail() {
                 <span className="px-2 py-0.5 bg-success rounded-full text-xs font-bold">{discount}% OFF</span>
               </div>
               <div className="flex flex-wrap gap-3 mt-6">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={addToCart}>Book Package</Button>
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={bookNow}>Book Package</Button>
                 <Button size="lg" variant="outline" className="border-white/40 text-white bg-white/10 hover:bg-white/20" onClick={addToCart}>
                   <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                 </Button>
@@ -135,7 +145,7 @@ function PackageDetail() {
               <div className="text-4xl font-bold">₹{pkg.price}</div>
               <div className="text-sm opacity-80 line-through">MRP ₹{pkg.mrp}</div>
               <div className="inline-block mt-2 px-3 py-1 bg-white/20 rounded-full text-xs font-bold">You save ₹{pkg.mrp - pkg.price} ({discount}%)</div>
-              <Button className="w-full mt-5 bg-white text-primary hover:bg-white/90" onClick={addToCart}>Book Package</Button>
+              <Button className="w-full mt-5 bg-white text-primary hover:bg-white/90" onClick={bookNow}>Book Package</Button>
             </div>
           </aside>
         </div>

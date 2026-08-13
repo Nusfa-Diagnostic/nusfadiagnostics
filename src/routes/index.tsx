@@ -9,7 +9,8 @@ import { PackageCard } from "@/components/site/PackageCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { tests, packages, BRAND } from "@/lib/data";
+import { BRAND } from "@/lib/data";
+import { useTests, usePackages, useOffers, useTestimonials, useFaqs } from "@/lib/content";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
@@ -42,6 +43,7 @@ function Home() {
 }
 
 function FeaturedTests() {
+  const { tests } = useTests();
   const featured = tests.filter(t => t.featured).slice(0, 4);
   return (
     <section className="py-20 md:py-24">
@@ -65,6 +67,7 @@ function FeaturedTests() {
 }
 
 function FeaturedPackages() {
+  const { packages } = usePackages();
   const featured = packages.filter(p => p.featured).slice(0, 4);
   return (
     <section className="py-20 md:py-24 bg-gradient-soft">
@@ -153,20 +156,21 @@ function HowItWorks() {
   );
 }
 
-const offers = [
+const staticOffers = [
   { tag: "New Patient", title: "20% OFF on first booking", desc: "Use code NUSFA20 on your first test or package.", color: "from-[oklch(0.52_0.18_248)] to-[oklch(0.68_0.16_235)]" },
   { tag: "Family Plan", title: "Full Body for ₹1499", desc: "75+ parameters with free home collection.", color: "from-[oklch(0.55_0.18_220)] to-[oklch(0.72_0.16_200)]" },
   { tag: "Senior Care", title: "Free doctor consultation", desc: "On every senior citizen care package.", color: "from-[oklch(0.5_0.2_260)] to-[oklch(0.65_0.18_240)]" },
 ];
 
 function Offers() {
+  const offers = useOffers(staticOffers.map(o => ({ tag: o.tag, title: o.title, desc: o.desc })));
   return (
     <section className="py-20 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader eyebrow="Latest Offers" title="Savings designed for your family" />
         <div className="grid gap-6 md:grid-cols-3">
           {offers.map((o, i) => (
-            <div key={i} className={`relative rounded-3xl p-8 text-white overflow-hidden bg-gradient-to-br ${o.color} shadow-elegant hover:scale-[1.02] transition-transform`}>
+            <div key={i} className={`relative rounded-3xl p-8 text-white overflow-hidden bg-gradient-to-br ${staticOffers[i % staticOffers.length]!.color} shadow-elegant hover:scale-[1.02] transition-transform`}>
               <div className="absolute -top-8 -right-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
               <div className="relative">
                 <div className="inline-flex px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-semibold uppercase tracking-wider mb-4">{o.tag}</div>
@@ -184,13 +188,14 @@ function Offers() {
   );
 }
 
-const reviews = [
+const staticReviews = [
   { name: "Anjali Singh", role: "Ramnagar", text: "Excellent service! The phlebotomist arrived on time and reports came on WhatsApp within hours. Highly recommended." },
   { name: "Md. Imran", role: "Bagaha", text: "Very professional staff. The full body checkup package saved us a lot, and the doctor consultation was helpful." },
   { name: "Sunita Devi", role: "West Champaran", text: "I trust NUSFA for all my family's tests. Affordable, accurate and the team is very polite." },
 ];
 
 function Testimonials() {
+  const reviews = useTestimonials(staticReviews.map(r => ({ ...r, rating: 5 })));
   return (
     <section className="py-20 md:py-24 bg-gradient-soft">
       <div className="mx-auto max-w-7xl px-6">
@@ -199,7 +204,7 @@ function Testimonials() {
           {reviews.map((r, i) => (
             <div key={i} className="glass-card rounded-2xl p-7 hover:shadow-elegant transition-all">
               <div className="flex gap-0.5 mb-4">
-                {Array.from({ length: 5 }).map((_, j) => (
+                {Array.from({ length: r.rating || 5 }).map((_, j) => (
                   <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
@@ -221,7 +226,7 @@ function Testimonials() {
   );
 }
 
-const faqs = [
+const staticFaqs = [
   { q: "Do you offer home sample collection?", a: "Yes — free home sample collection is available across Ramnagar and nearby areas of West Champaran. Just book online or call us." },
   { q: "How quickly do I receive my reports?", a: "Most reports are delivered the same day or within 24 hours, sent to you on WhatsApp and email." },
   { q: "Are the tests reliable?", a: "Absolutely. All tests are conducted with NABL-quality controls, calibrated analyzers and reviewed by qualified pathologists." },
@@ -231,6 +236,7 @@ const faqs = [
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
+  const faqs = useFaqs(staticFaqs);
   return (
     <section className="py-20 md:py-24">
       <div className="mx-auto max-w-3xl px-6">

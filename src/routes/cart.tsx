@@ -1,17 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Trash2, ShoppingBag, ArrowRight, MessageCircle } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowRight, MessageCircle, Loader2 } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { BRAND } from "@/lib/data";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/cart")({
-  head: () => ({ meta: [{ title: "Your Cart — NUSFA Diagnostic" }] }),
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Your Cart — NUSFA Diagnostic" },
+      { name: "description", content: "Review the lab tests and health packages in your NUSFA Diagnostic cart and confirm your booking with free home sample collection." },
+      { property: "og:title", content: "Your Cart — NUSFA Diagnostic" },
+      { property: "og:description", content: "Review your selected tests and packages and confirm your booking." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: CartPage,
 });
 
 function CartPage() {
   const { items, remove, clear, total } = useCart();
+  const { user, loading } = useAuth();
 
   const waMessage = encodeURIComponent(
     "Hi NUSFA Diagnostic, I want to book the following:\n\n" +
@@ -69,12 +81,32 @@ function CartPage() {
                 <div className="flex justify-between font-bold text-lg mb-5">
                   <span>Total</span><span>₹{total}</span>
                 </div>
+                {loading ? (
+                  <Button disabled className="w-full bg-gradient-primary">
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" /> Loading…
+                  </Button>
+                ) : user ? (
+                  <Button asChild className="w-full bg-gradient-primary">
+                    <Link to="/checkout">Proceed to Booking <ArrowRight className="h-4 w-4 ml-1" /></Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button asChild className="w-full bg-gradient-primary">
+                      <Link to="/auth" search={{ redirect: "/checkout" }}>
+                        Login to Book <ArrowRight className="h-4 w-4 ml-1" />
+                      </Link>
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      Sign in or create a free account to confirm and track your booking.
+                    </p>
+                  </>
+                )}
                 <a href={`https://wa.me/${BRAND.whatsapp}?text=${waMessage}`} target="_blank" rel="noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold text-white" style={{ background: "#25D366" }}>
-                  <MessageCircle className="h-4 w-4" /> Confirm on WhatsApp
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold text-white" style={{ background: "#25D366" }}>
+                  <MessageCircle className="h-4 w-4" /> Book on WhatsApp
                 </a>
                 <a href={`tel:${BRAND.phones[0]}`}
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold bg-gradient-primary text-primary-foreground">
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold border border-border">
                   Call to Book <ArrowRight className="h-4 w-4" />
                 </a>
               </aside>

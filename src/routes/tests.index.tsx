@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { TestCard } from "@/components/site/TestCard";
 import { Input } from "@/components/ui/input";
-import { tests, categories } from "@/lib/data";
+import { useTests, useTestCategories } from "@/lib/content";
 
 export const Route = createFileRoute("/tests/")({
   head: () => ({
@@ -21,12 +21,14 @@ export const Route = createFileRoute("/tests/")({
 function TestsList() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string>("All");
+  const { tests } = useTests();
+  const categories = useTestCategories(tests);
 
   const filtered = useMemo(() => tests.filter(t => {
     const matchesQ = !q || t.name.toLowerCase().includes(q.toLowerCase()) || t.short.toLowerCase().includes(q.toLowerCase());
     const matchesC = cat === "All" || t.category === cat;
     return matchesQ && matchesC;
-  }), [q, cat]);
+  }), [q, cat, tests]);
 
   return (
     <SiteLayout>

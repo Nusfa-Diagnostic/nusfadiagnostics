@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ArrowRight, ShieldCheck } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useHeroSlides } from "@/lib/content";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
@@ -15,7 +16,7 @@ export interface Slide {
   ctaLink: string;
 }
 
-const slides: Slide[] = [
+const staticSlides: Slide[] = [
   {
     image: hero1,
     title: "Precision Diagnostics. Trusted Care.",
@@ -43,6 +44,7 @@ const slides: Slide[] = [
 ];
 
 export function HeroSlider() {
+  const slides = useHeroSlides(staticSlides);
   const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "start" });
   const [selected, setSelected] = useState(0);
 
