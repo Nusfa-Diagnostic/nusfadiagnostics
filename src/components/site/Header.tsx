@@ -21,11 +21,12 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const taps = useRef<number[]>([]);
 
-  const handleLogoTap = () => {
+  const handleLogoTap = (e: React.MouseEvent) => {
     const now = Date.now();
     taps.current = [...taps.current.filter(t => now - t < 4000), now];
     if (taps.current.length >= 7) {
       taps.current = [];
+      e.preventDefault();
       navigate({ to: "/admin/login", search: { denied: undefined } });
     }
   };
