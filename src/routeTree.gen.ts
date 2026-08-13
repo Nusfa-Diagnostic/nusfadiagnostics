@@ -19,6 +19,7 @@ import { Route as PackagesIndexRouteImport } from './routes/packages.index'
 import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as PackagesSlugRouteImport } from './routes/packages.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin.index'
 import { Route as AuthenticatedAccountReportsRouteImport } from './routes/_authenticated/account.reports'
@@ -81,6 +82,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCheckoutRoute = AuthenticatedCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
   '/admin/login': typeof AdminLoginRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof AuthenticatedCheckoutRoute
   '/admin/login': typeof AdminLoginRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/_authenticated/checkout': typeof AuthenticatedCheckoutRoute
   '/admin/login': typeof AdminLoginRoute
   '/packages/$slug': typeof PackagesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/cart'
+    | '/checkout'
     | '/admin/login'
     | '/packages/$slug'
     | '/tests/$slug'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/cart'
+    | '/checkout'
     | '/admin/login'
     | '/packages/$slug'
     | '/tests/$slug'
@@ -290,6 +301,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/cart'
+    | '/_authenticated/checkout'
     | '/admin/login'
     | '/packages/$slug'
     | '/tests/$slug'
@@ -395,6 +407,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/checkout': {
+      id: '/_authenticated/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof AuthenticatedCheckoutRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/account/': {
       id: '/_authenticated/account/'
@@ -524,6 +543,7 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCheckoutRoute: typeof AuthenticatedCheckoutRoute
   AuthenticatedAccountNotificationsRoute: typeof AuthenticatedAccountNotificationsRoute
   AuthenticatedAccountProfileRoute: typeof AuthenticatedAccountProfileRoute
   AuthenticatedAccountReportsRoute: typeof AuthenticatedAccountReportsRoute
@@ -533,6 +553,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCheckoutRoute: AuthenticatedCheckoutRoute,
   AuthenticatedAccountNotificationsRoute:
     AuthenticatedAccountNotificationsRoute,
   AuthenticatedAccountProfileRoute: AuthenticatedAccountProfileRoute,
