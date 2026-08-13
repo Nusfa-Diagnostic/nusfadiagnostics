@@ -6,6 +6,7 @@ import { PackageCard } from "@/components/site/PackageCard";
 import { Button } from "@/components/ui/button";
 import { getPackage, relatedPackages, BRAND, type Package } from "@/lib/data";
 import { useCart } from "@/lib/cart";
+import { usePackageBySlug } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/packages/$slug")({
@@ -39,7 +40,8 @@ export const Route = createFileRoute("/packages/$slug")({
 });
 
 function PackageDetail() {
-  const { pkg } = Route.useLoaderData() as any;
+  const { pkg: fallbackPkg } = Route.useLoaderData() as any;
+  const pkg = usePackageBySlug(fallbackPkg.slug, fallbackPkg);
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedPackages(pkg.slug);

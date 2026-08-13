@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { PackageCard } from "@/components/site/PackageCard";
 import { Input } from "@/components/ui/input";
-import { packages } from "@/lib/data";
+import { usePackages } from "@/lib/content";
 
 export const Route = createFileRoute("/packages/")({
   head: () => ({
@@ -20,9 +20,10 @@ export const Route = createFileRoute("/packages/")({
 
 function PackagesList() {
   const [q, setQ] = useState("");
+  const { packages } = usePackages();
   const filtered = useMemo(() => packages.filter(p =>
     !q || p.name.toLowerCase().includes(q.toLowerCase()) || p.short.toLowerCase().includes(q.toLowerCase())
-  ), [q]);
+  ), [q, packages]);
 
   return (
     <SiteLayout>

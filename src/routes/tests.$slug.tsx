@@ -6,6 +6,7 @@ import { TestCard } from "@/components/site/TestCard";
 import { Button } from "@/components/ui/button";
 import { getTest, relatedTests, BRAND, type Test } from "@/lib/data";
 import { useCart } from "@/lib/cart";
+import { useTest } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/tests/$slug")({
@@ -39,7 +40,8 @@ export const Route = createFileRoute("/tests/$slug")({
 });
 
 function TestDetail() {
-  const { test } = Route.useLoaderData() as any;
+  const { test: fallbackTest } = Route.useLoaderData() as any;
+  const test = useTest(fallbackTest.slug, fallbackTest);
   const { add } = useCart();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const related = relatedTests(test.slug, test.category);
