@@ -69,12 +69,32 @@ function CartPage() {
                 <div className="flex justify-between font-bold text-lg mb-5">
                   <span>Total</span><span>₹{total}</span>
                 </div>
+                {loading ? (
+                  <Button disabled className="w-full bg-gradient-primary">
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" /> Loading…
+                  </Button>
+                ) : user ? (
+                  <Button asChild className="w-full bg-gradient-primary">
+                    <Link to="/checkout">Proceed to Booking <ArrowRight className="h-4 w-4 ml-1" /></Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button asChild className="w-full bg-gradient-primary">
+                      <Link to="/auth" search={{ redirect: "/checkout" }}>
+                        Login to Book <ArrowRight className="h-4 w-4 ml-1" />
+                      </Link>
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      Sign in or create a free account to confirm and track your booking.
+                    </p>
+                  </>
+                )}
                 <a href={`https://wa.me/${BRAND.whatsapp}?text=${waMessage}`} target="_blank" rel="noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold text-white" style={{ background: "#25D366" }}>
-                  <MessageCircle className="h-4 w-4" /> Confirm on WhatsApp
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold text-white" style={{ background: "#25D366" }}>
+                  <MessageCircle className="h-4 w-4" /> Book on WhatsApp
                 </a>
                 <a href={`tel:${BRAND.phones[0]}`}
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold bg-gradient-primary text-primary-foreground">
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-lg font-semibold border border-border">
                   Call to Book <ArrowRight className="h-4 w-4" />
                 </a>
               </aside>
