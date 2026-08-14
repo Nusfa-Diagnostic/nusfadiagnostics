@@ -28,6 +28,8 @@ export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
 });
 
+const ADMIN_EMAIL = "nusfalabs@gmail.com";
+
 function AdminLogin() {
   const { denied } = Route.useSearch();
   const { user, isAdmin, loading } = useAuth();
@@ -35,6 +37,8 @@ function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     if (!loading && user && isAdmin) navigate({ to: "/admin", replace: true });
@@ -48,6 +52,18 @@ function AdminLogin() {
     if (error) return toast.error(error.message);
     toast.success("Signed in");
   }
+
+  async function sendRecovery() {
+    setSending(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(ADMIN_EMAIL, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setSending(false);
+    if (error) return toast.error(error.message);
+    setSent(true);
+    toast.success("Password setup email sent to the admin address.");
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-6">
