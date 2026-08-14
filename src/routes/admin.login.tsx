@@ -92,6 +92,18 @@ function AdminLogin() {
             {busy && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
           </Button>
         </form>
+
+        <div className="mt-6 border-t pt-4">
+          <Button type="button" variant="outline" className="w-full" onClick={sendRecovery} disabled={sending}>
+            {sending && <Loader2 className="h-4 w-4 animate-spin" />} Set / Reset admin password
+          </Button>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {sent
+              ? "Email sent. Open the link from the admin inbox to set a new password, then sign in here."
+              : "Sends a secure setup link to the registered admin email address. The password is entered only on the secure recovery screen."}
+          </p>
+        </div>
+
       </div>
       <Toaster position="top-center" richColors />
     </div>
