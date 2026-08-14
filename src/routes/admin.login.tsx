@@ -28,6 +28,8 @@ export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
 });
 
+const ADMIN_EMAIL = "nusfalabs@gmail.com";
+
 function AdminLogin() {
   const { denied } = Route.useSearch();
   const { user, isAdmin, loading } = useAuth();
@@ -35,6 +37,8 @@ function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     if (!loading && user && isAdmin) navigate({ to: "/admin", replace: true });
@@ -48,6 +52,18 @@ function AdminLogin() {
     if (error) return toast.error(error.message);
     toast.success("Signed in");
   }
+
+  async function sendRecovery() {
+    setSending(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(ADMIN_EMAIL, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setSending(false);
+    if (error) return toast.error(error.message);
+    setSent(true);
+    toast.success("Password setup email sent to the admin address.");
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-6">
@@ -76,6 +92,18 @@ function AdminLogin() {
             {busy && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
           </Button>
         </form>
+
+        <div className="mt-6 border-t pt-4">
+          <Button type="button" variant="outline" className="w-full" onClick={sendRecovery} disabled={sending}>
+            {sending && <Loader2 className="h-4 w-4 animate-spin" />} Set / Reset admin password
+          </Button>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {sent
+              ? "Email sent. Open the link from the admin inbox to set a new password, then sign in here."
+              : "Sends a secure setup link to the registered admin email address. The password is entered only on the secure recovery screen."}
+          </p>
+        </div>
+
       </div>
       <Toaster position="top-center" richColors />
     </div>
