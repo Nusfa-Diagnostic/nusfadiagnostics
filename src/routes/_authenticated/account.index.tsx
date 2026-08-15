@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { AccountLayout, StatusBadge } from "@/components/site/AccountLayout";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
+import { useMyProfile, firstName } from "@/lib/profile";
+
 
 export const Route = createFileRoute("/_authenticated/account/")({
   head: () => ({
@@ -22,6 +24,9 @@ export const Route = createFileRoute("/_authenticated/account/")({
 
 function AccountHome() {
   const { user } = useAuth();
+  const { data: profile } = useMyProfile();
+  const greeting = firstName(profile?.full_name, user?.email);
+
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["account", "overview", user?.id],
