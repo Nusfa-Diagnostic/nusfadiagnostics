@@ -25,12 +25,13 @@ function AdminBookings() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin", "bookings"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bookings")
-        .select("*, booking_items(item_name)")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data ?? [];
+      const [bookings, profiles] = await Promise.all([
+        supabase.from("bookings").select("*, booking_items(item_name)").order("created_at", { ascending: false }),
+        supabase.from("profiles").select("id, customer_code, full_name"),
+      ]);
+      if (bookings.error) throw bookings.error;
+      const codes = new Map((profiles.data ?? []).map(p => [p.id, p.customer_code]));
+      return (bookings.data ?? []).map(b => ({ ...b, customer_code: codes.get(b.customer_id) ?? null }));
     },
   });
 
@@ -49,7 +50,7 @@ function AdminBookings() {
   const rows = (data ?? []).filter(b => {
     if (filter !== "all" && b.status !== filter) return false;
     if (!q) return true;
-    const hay = `${b.booking_number} ${b.contact_name ?? ""} ${b.contact_phone ?? ""} ${b.city ?? ""}`.toLowerCase();
+    const hay = `${b.booking_number} ${b.customer_code ?? ""} ${b.contact_name ?? ""} ${b.contact_phone ?? ""} ${b.city ?? ""}`.toLowerCase();
     return hay.includes(q.toLowerCase());
   });
 
@@ -63,7 +64,7 @@ function AdminBookings() {
       <div className="flex flex-wrap gap-3">
         <div className="relative max-w-sm flex-1 min-w-[220px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search booking, name, phone…" value={q} onChange={e => setQ(e.target.value)} />
+          <Input className="pl-9" placeholder="Search booking, Customer ID, name, phone…" value={q} onChange={e => setQ(e.target.value)} />
         </div>
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
@@ -100,6 +101,7 @@ function AdminBookings() {
                     </td>
                     <td className="px-4 py-3">
                       <div>{b.contact_name ?? "—"}</div>
+                      <div className="text-xs font-semibold text-primary tabular-nums">{b.customer_code ?? "—"}</div>
                       <div className="text-xs text-muted-foreground">{b.contact_phone ?? ""}</div>
                     </td>
                     <td className="px-4 py-3 text-xs text-muted-foreground max-w-[200px]">
