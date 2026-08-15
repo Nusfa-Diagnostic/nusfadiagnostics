@@ -40,7 +40,7 @@ function AccountHome() {
   const active = data?.bookings.find(b => b.status !== "completed" && b.status !== "cancelled");
 
   return (
-    <AccountLayout title="Dashboard" description={`Welcome back, ${user?.email}`}>
+    <AccountLayout title={`Welcome back, ${greeting}`} description="Your bookings, collection status and reports at a glance.">
       {isLoading ? (
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       ) : error ? (
