@@ -5,6 +5,8 @@ import { LayoutDashboard, CalendarCheck, FileText, UserCog, LogOut, Bell } from 
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/Layout";
 import { useAuth } from "@/lib/auth";
+import { useMyProfile } from "@/lib/profile";
+
 import { cn } from "@/lib/utils";
 
 const NAV = [
