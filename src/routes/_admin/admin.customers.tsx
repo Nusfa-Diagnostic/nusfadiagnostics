@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { Fragment } from "react";
 import { useState } from "react";
 import { Loader2, Search, IdCard, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -84,8 +85,8 @@ function AdminCustomers() {
               </thead>
               <tbody>
                 {rows.map(p => (
-                  <>
-                    <tr key={p.id} className="border-t border-border">
+                  <Fragment key={p.id}>
+                    <tr className="border-t border-border">
                       <td className="px-4 py-3 font-semibold tabular-nums text-primary whitespace-nowrap">{p.customer_code ?? "—"}</td>
                       <td className="px-4 py-3">{p.full_name ?? "—"}</td>
                       <td className="px-4 py-3">
@@ -107,7 +108,7 @@ function AdminCustomers() {
                       </td>
                     </tr>
                     {open === p.id && (
-                      <tr key={`${p.id}-details`} className="border-t border-border bg-muted/30">
+                      <tr className="border-t border-border bg-muted/30">
                         <td colSpan={9} className="px-4 py-4">
                           <div className="grid gap-6 md:grid-cols-2">
                             <div>
@@ -142,7 +143,7 @@ function AdminCustomers() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
