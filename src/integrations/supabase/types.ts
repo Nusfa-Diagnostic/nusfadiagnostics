@@ -392,6 +392,7 @@ export type Database = {
           address: string | null
           city: string | null
           created_at: string
+          customer_code: string
           date_of_birth: string | null
           email: string | null
           full_name: string | null
@@ -406,6 +407,7 @@ export type Database = {
           address?: string | null
           city?: string | null
           created_at?: string
+          customer_code?: string
           date_of_birth?: string | null
           email?: string | null
           full_name?: string | null
@@ -420,6 +422,7 @@ export type Database = {
           address?: string | null
           city?: string | null
           created_at?: string
+          customer_code?: string
           date_of_birth?: string | null
           email?: string | null
           full_name?: string | null
@@ -689,6 +692,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      next_customer_code: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin"
