@@ -20,6 +20,7 @@ export function AccountLayout({ title, description, children }: { title: string;
   const navigate = useNavigate();
   const qc = useQueryClient();
   const pathname = useRouterState({ select: s => s.location.pathname });
+  const { data: profile } = useMyProfile();
 
   const signOut = async () => {
     await qc.cancelQueries();
@@ -33,9 +34,15 @@ export function AccountLayout({ title, description, children }: { title: string;
       <section className="bg-gradient-hero text-white py-10">
         <div className="mx-auto max-w-7xl px-6">
           <h1 className="font-display text-3xl md:text-4xl font-bold">{title}</h1>
-          <p className="text-white/80 mt-2 text-sm">{description ?? user?.email}</p>
+          {description ? <p className="text-white/80 mt-2 text-sm">{description}</p> : null}
+          {profile?.customer_code ? (
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium tracking-wide text-white/85 ring-1 ring-white/20">
+              Customer ID: <span className="font-semibold tabular-nums">{profile.customer_code}</span>
+            </p>
+          ) : null}
         </div>
       </section>
+
 
       <section className="py-10">
         <div className="mx-auto max-w-7xl px-6 grid gap-8 lg:grid-cols-[240px_1fr]">
