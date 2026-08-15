@@ -85,13 +85,18 @@ function ProfilePage() {
           onSubmit={e => { e.preventDefault(); save.mutate(); }}
         >
           <div className="space-y-2">
-            <Label htmlFor="full_name">Full name</Label>
-            <Input id="full_name" value={form.full_name} onChange={e => set("full_name", e.target.value)} />
+            <Label htmlFor="customer_id">Customer ID</Label>
+            <Input id="customer_id" value={data?.customer_code ?? "—"} readOnly disabled className="font-semibold tracking-wide tabular-nums" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" value={user?.email ?? ""} disabled />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="full_name">Full name</Label>
+            <Input id="full_name" value={form.full_name} onChange={e => set("full_name", e.target.value)} />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="phone">Mobile number</Label>
             <Input id="phone" value={form.phone} onChange={e => set("phone", e.target.value)} />

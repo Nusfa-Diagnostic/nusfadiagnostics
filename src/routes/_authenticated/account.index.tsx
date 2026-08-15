@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { AccountLayout, StatusBadge } from "@/components/site/AccountLayout";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
+import { useMyProfile, firstName } from "@/lib/profile";
+
 
 export const Route = createFileRoute("/_authenticated/account/")({
   head: () => ({
@@ -22,6 +24,9 @@ export const Route = createFileRoute("/_authenticated/account/")({
 
 function AccountHome() {
   const { user } = useAuth();
+  const { data: profile } = useMyProfile();
+  const greeting = firstName(profile?.full_name, user?.email);
+
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["account", "overview", user?.id],
@@ -40,7 +45,7 @@ function AccountHome() {
   const active = data?.bookings.find(b => b.status !== "completed" && b.status !== "cancelled");
 
   return (
-    <AccountLayout title="Dashboard" description={`Welcome back, ${user?.email}`}>
+    <AccountLayout title={`Welcome back, ${greeting}`} description="Your bookings, collection status and reports at a glance.">
       {isLoading ? (
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       ) : error ? (

@@ -35,7 +35,7 @@ function AdminReports() {
     queryFn: async () => {
       const [reports, profiles, bookings] = await Promise.all([
         supabase.from("reports").select("*").order("created_at", { ascending: false }),
-        supabase.from("profiles").select("id,full_name,email"),
+        supabase.from("profiles").select("id,full_name,email,customer_code"),
         supabase.from("bookings").select("id,booking_number,customer_id").order("created_at", { ascending: false }),
       ]);
       if (reports.error) throw reports.error;
@@ -78,6 +78,7 @@ function AdminReports() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const customerCode = (id: string) => data?.profiles.find(x => x.id === id)?.customer_code ?? "—";
   const customerName = (id: string) => {
     const p = data?.profiles.find(x => x.id === id);
     return p?.full_name || p?.email || id.slice(0, 8);
@@ -125,7 +126,10 @@ function AdminReports() {
                 {data.reports.map(r => (
                   <tr key={r.id} className="border-t border-border">
                     <td className="px-4 py-3">{r.title}</td>
-                    <td className="px-4 py-3">{customerName(r.customer_id)}</td>
+                    <td className="px-4 py-3">
+                      <div>{customerName(r.customer_id)}</div>
+                      <div className="text-xs font-semibold text-primary tabular-nums">{customerCode(r.customer_id)}</div>
+                    </td>
                     <td className="px-4 py-3 whitespace-nowrap">{new Date(r.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
                       <Badge variant={r.is_published ? "default" : "secondary"}>{r.is_published ? "Published" : "Draft"}</Badge>
