@@ -77,15 +77,21 @@ export type Database = {
           booking_number: string
           city: string | null
           collection_type: Database["public"]["Enums"]["collection_type"]
+          contact_email: string | null
           contact_name: string | null
           contact_phone: string | null
           created_at: string
           customer_id: string
           customer_notes: string | null
           id: string
+          patient_age: number | null
+          patient_first_name: string | null
+          patient_gender: string | null
+          patient_last_name: string | null
           payment_method: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           pincode: string | null
+          referral: string | null
           scheduled_date: string | null
           scheduled_time: string | null
           status: Database["public"]["Enums"]["booking_status"]
@@ -98,15 +104,21 @@ export type Database = {
           booking_number?: string
           city?: string | null
           collection_type?: Database["public"]["Enums"]["collection_type"]
+          contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
           customer_id: string
           customer_notes?: string | null
           id?: string
+          patient_age?: number | null
+          patient_first_name?: string | null
+          patient_gender?: string | null
+          patient_last_name?: string | null
           payment_method?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           pincode?: string | null
+          referral?: string | null
           scheduled_date?: string | null
           scheduled_time?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
@@ -119,15 +131,21 @@ export type Database = {
           booking_number?: string
           city?: string | null
           collection_type?: Database["public"]["Enums"]["collection_type"]
+          contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
           customer_id?: string
           customer_notes?: string | null
           id?: string
+          patient_age?: number | null
+          patient_first_name?: string | null
+          patient_gender?: string | null
+          patient_last_name?: string | null
           payment_method?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           pincode?: string | null
+          referral?: string | null
           scheduled_date?: string | null
           scheduled_time?: string | null
           status?: Database["public"]["Enums"]["booking_status"]
